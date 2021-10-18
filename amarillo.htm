@@ -1,0 +1,762 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head><style type="text/css">
+
+/* Circle Text Styles */
+
+#outerCircleText {
+
+/* Optional - DO NOT SET FONT-SIZE HERE, SET IT IN THE SCRIPT */
+
+font-style: italic;
+
+font-weight: bold;
+
+font-family: 'comic sans ms', verdana, arial;
+
+color: #FFFFFF;
+
+/* End Optional */
+
+
+
+/* Start Required - Do Not Edit */
+
+position: absolute;top: 0;left: 0;z-index: 3000;cursor: default;}
+
+#outerCircleText div {position: relative;}
+
+#outerCircleText div div {position: absolute;top: 0;left: 0;text-align: center;}
+
+/* End Required */
+
+/* End Circle Text Styles */
+
+</style>
+
+<script type="text/javascript">
+
+
+
+/* Circling text trail- Tim Tilton
+
+   Website: http://www.tempermedia.com/
+
+   Visit: http://www.dynamicdrive.com/ for Original Source and tons of scripts
+
+   Modified Here for more flexibility and modern browser support
+
+   Modifications as first seen in http://www.dynamicdrive.com/forums/
+
+   username:jscheuer1 - This notice must remain for legal use
+
+   */
+
+
+
+;(function(){
+
+
+
+// Your message here (QUOTED STRING)
+
+var msg = "Ingenieria en sistemas computacionales!";
+
+
+
+/* THE REST OF THE EDITABLE VALUES BELOW ARE ALL UNQUOTED NUMBERS */
+
+
+
+// Set font's style size for calculating dimensions
+
+// Set to number of desired pixels font size (decimal and negative numbers not allowed)
+
+var size = 24;
+
+
+
+// Set both to 1 for plain circle, set one of them to 2 for oval
+
+// Other numbers & decimals can have interesting effects, keep these low (0 to 3)
+
+var circleY = 0.75; var circleX = 2;
+
+
+
+// The larger this divisor, the smaller the spaces between letters
+
+// (decimals allowed, not negative numbers)
+
+var letter_spacing = 7;
+
+
+
+// The larger this multiplier, the bigger the circle/oval
+
+// (decimals allowed, not negative numbers, some rounding is applied)
+
+var diameter = 15;
+
+
+
+// Rotation speed, set it negative if you want it to spin clockwise (decimals allowed)
+
+var rotation = 0.4;
+
+
+
+// This is not the rotation speed, its the reaction speed, keep low!
+
+// Set this to 1 or a decimal less than one (decimals allowed, not negative numbers)
+
+var speed = 0.2;
+
+
+
+////////////////////// Stop Editing //////////////////////
+
+
+
+if (!window.addEventListener && !window.attachEvent || !document.createElement) return;
+
+
+
+msg = msg.split('');
+
+var n = msg.length - 1, a = Math.round(size * diameter * 0.208333), currStep = 20,
+
+ymouse = a * circleY + 20, xmouse = a * circleX + 20, y = [], x = [], Y = [], X = [],
+
+o = document.createElement('div'), oi = document.createElement('div'),
+
+b = document.compatMode && document.compatMode != "BackCompat"? document.documentElement : document.body,
+
+
+
+mouse = function(e){
+
+ e = e || window.event;
+
+ ymouse = !isNaN(e.pageY)? e.pageY : e.clientY; // y-position
+
+ xmouse = !isNaN(e.pageX)? e.pageX : e.clientX; // x-position
+
+},
+
+
+
+makecircle = function(){ // rotation/positioning
+
+ if(init.nopy){
+
+  o.style.top = (b || document.body).scrollTop + 'px';
+
+  o.style.left = (b || document.body).scrollLeft + 'px';
+
+ };
+
+ currStep -= rotation;
+
+ for (var d, i = n; i > -1; --i){ // makes the circle
+
+  d = document.getElementById('iemsg' + i).style;
+
+  d.top = Math.round(y[i] + a * Math.sin((currStep + i) / letter_spacing) * circleY - 15) + 'px';
+
+  d.left = Math.round(x[i] + a * Math.cos((currStep + i) / letter_spacing) * circleX) + 'px';
+
+ };
+
+},
+
+
+
+drag = function(){ // makes the resistance
+
+ y[0] = Y[0] += (ymouse - Y[0]) * speed;
+
+ x[0] = X[0] += (xmouse - 20 - X[0]) * speed;
+
+ for (var i = n; i > 0; --i){
+
+  y[i] = Y[i] += (y[i-1] - Y[i]) * speed;
+
+  x[i] = X[i] += (x[i-1] - X[i]) * speed;
+
+ };
+
+ makecircle();
+
+},
+
+
+
+init = function(){ // appends message divs, & sets initial values for positioning arrays
+
+ if(!isNaN(window.pageYOffset)){
+
+  ymouse += window.pageYOffset;
+
+  xmouse += window.pageXOffset;
+
+ } else init.nopy = true;
+
+ for (var d, i = n; i > -1; --i){
+
+  d = document.createElement('div'); d.id = 'iemsg' + i;
+
+  d.style.height = d.style.width = a + 'px';
+
+  d.appendChild(document.createTextNode(msg[i]));
+
+  oi.appendChild(d); y[i] = x[i] = Y[i] = X[i] = 0;
+
+ };
+
+ o.appendChild(oi); document.body.appendChild(o);
+
+ setInterval(drag, 25);
+
+},
+
+
+
+ascroll = function(){
+
+ ymouse += window.pageYOffset;
+
+ xmouse += window.pageXOffset;
+
+ window.removeEventListener('scroll', ascroll, false);
+
+};
+
+
+
+o.id = 'outerCircleText'; o.style.fontSize = size + 'px';
+
+
+
+if (window.addEventListener){
+
+ window.addEventListener('load', init, false);
+
+ document.addEventListener('mouseover', mouse, false);
+
+ document.addEventListener('mousemove', mouse, false);
+
+  if (/Apple/.test(navigator.vendor))
+
+   window.addEventListener('scroll', ascroll, false);
+
+}
+
+else if (window.attachEvent){
+
+ window.attachEvent('onload', init);
+
+ document.attachEvent('onmousemove', mouse);
+
+};
+
+
+
+})();
+
+
+
+</script>
+<style>
+<!--
+.styling{
+background-color:black;
+color:lime;
+font: bold 16px MS Sans Serif;
+padding: 3px;
+}
+-->
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Untitled Document</title>
+<style type="text/css">
+<!--
+body {
+	background-color: #000000;
+}
+-->
+</style></head>
+
+<body>
+<div id="Layer1" style="position:absolute; left:200px; top:11px; width:473px; height:319px; z-index:1"><img src="imagen4.gif" width="421" height="385"></div>
+<div id="Layer2" style="position:absolute; left:744px; top:361px; width:122px; height:109px; z-index:2"><img src="whats3.gif" width="104" height="104"></div>
+<div id="Layer3" style="position:absolute; left:721px; top:62px; width:305px; height:234px; z-index:3"><script language="JavaScript">
+
+//Form button calendar (author unknown)
+//For this script and more
+//Visit http://javascriptkit.com
+
+function setDate(str) {
+
+ if (str == "   ") {
+  return;
+ }
+
+ mnth1 = document.forms[0].month.value;
+ mnth = mnth1;
+ mnth++;
+ year = document.forms[0].year.value;
+ dateStr = mnth+"/"+str+"/"+year;
+
+ dateStr = trim(dateStr);
+ 
+ document.forms[1].dateField.value = dateStr;
+
+
+}//setDate()
+
+/**
+ * The function removes spaces from the selected date.
+ */
+
+function trim(str) {
+
+ res="";
+
+ for(var i=0; i< str.length; i++) {
+   if (str.charAt(i) != " ") {
+     res +=str.charAt(i);
+  }
+ }
+   
+ return res;
+
+}//trim()
+ 
+/**
+ * The method to get the Month name given the Month number of the year.
+ */
+
+function getMonthName(mnth) {
+
+ if (mnth == 0) {
+  name = "January";
+ }else if(mnth==1) {
+  name = "February";
+ }else if(mnth==2) {
+  name = "March";
+ }else if(mnth==3) {
+  name = "April";
+ }else if(mnth==4) {
+  name = "May";
+ } else if(mnth==5) {
+  name = "June";
+ } else if(mnth==6) {
+  name = "July";
+ } else if(mnth==7) {
+  name = "August";
+ } else if(mnth==8) {
+  name = "September";
+ } else if(mnth==9) {
+  name = "October";
+ } else if(mnth==10) {
+  name = "November";
+ } else if(mnth==11) {
+  name = "December";
+ }
+
+ return name;
+
+}//getMonthName()
+
+/**
+ * Get the number of days in the month based on the year.
+ */
+
+function getNoOfDaysInMnth(mnth,yr) {
+ 
+ rem = yr % 4;
+
+ if(rem ==0) {
+   leap = 1;
+ } else {
+  leap = 0;
+ }
+
+ noDays=0;
+
+ if ( (mnth == 1) || (mnth == 3) || (mnth == 5) ||
+      (mnth == 7) || (mnth == 8) || (mnth == 10) ||
+      (mnth == 12)) {
+  noDays=31;
+ } else if (mnth == 2) {
+           noDays=28+leap;
+        } else {
+           noDays=30;
+ }
+
+ //alert(noDays);
+ return noDays;
+ 
+      
+}//getNoOfDaysInMnth()
+  
+/**
+ * The function to reset the date values in the buttons of the 
+ * slots.
+ */
+
+function fillDates(dayOfWeek1,noOfDaysInmnth) {
+
+ for(var i=1; i<43; i++) {
+   str = "s"+i;
+   document.forms[0].elements[str].value="   ";
+ }
+
+
+ startSlotIndx = dayOfWeek1;
+ slotIndx = startSlotIndx;
+
+ for(var i=1; i<(noOfDaysInmnth+1); i++) {
+  slotName = "s"+slotIndx;
+
+  val="";
+  if (i<10) {
+    val = " "+i+" ";
+  } else {
+    val = i;
+  }
+
+  document.forms[0].elements[slotName].value = val;
+  slotIndx++;
+ }
+  
+}//fillDates()
+ 
+
+/**
+ * The function that is called at the time of loading the page.
+ * This function displays Today's date and also displays the 
+ * the calendar of the current month.
+ */
+
+function thisMonth() {
+
+  dt = new Date();
+  mnth  = dt.getMonth(); /* 0-11*/
+  dayOfMnth = dt.getDate(); /* 1-31*/
+  dayOfWeek = dt.getDay(); /*0-6*/
+  yr = dt.getFullYear(); /*4-digit year*/
+
+  //alert("month:"+(mnth+1)+":dayofMnth:"+dayOfMnth+":dayofweek:"+dayOfWeek+":year:"+yr);
+
+  mnthName = getMonthName(mnth)+ " ";
+  document.forms[0].month.value = mnth;
+  document.forms[0].year.value = yr;
+  document.forms[0].currMonth.value = mnth;
+  document.forms[0].currYear.value = yr;
+  
+  document.forms[0].monthYear.value = mnthName+yr;
+  document.forms[1].dateField.value = (mnth+1)+"/"+dayOfMnth+"/"+yr;
+
+  startStr = (mnth+1)+"/1/"+yr;
+  dt1 = new Date(startStr);
+  dayOfWeek1 = dt1.getDay(); /*0-6*/
+
+  noOfDaysInMnth = getNoOfDaysInMnth(mnth+1,yr);
+  fillDates(dayOfWeek1+1,noOfDaysInMnth);
+ 
+
+}//thisMonth()
+
+/**
+ * The function that will be used to display the calendar of the next month.
+ */
+
+function nextMonth() {
+
+ var currMnth = document.forms[0].month.value;
+ currYr = document.forms[0].year.value;
+
+ if (currMnth == "11") {
+    nextMnth = 0;
+    nextYr = currYr;
+    nextYr++;
+ } else {
+   nextMnth=currMnth;
+   nextMnth++;
+   nextYr = currYr;
+ }
+
+ mnthName = getMonthName(nextMnth);
+ document.forms[0].month.value=nextMnth;
+ document.forms[0].year.value=nextYr;
+ document.forms[0].monthYear.value= mnthName+" "+nextYr;
+
+ str = (nextMnth+1)+"/1/"+nextYr;
+ dt = new Date(str);
+ dayOfWeek = dt.getDay();
+
+ noOfDays = getNoOfDaysInMnth(nextMnth+1,nextYr);
+
+ fillDates(dayOfWeek+1,noOfDays);
+ 
+
+}//nextMonth()
+
+/**
+ * The method to display the calendar of the previous month.
+ */
+
+function prevMonth() {
+
+ var currMnth = document.forms[0].month.value;
+ currYr = document.forms[0].year.value;
+
+ if (currMnth == "0") {
+    prevMnth = 11;
+    prevYr = currYr;
+    prevYr--;
+ } else {
+   prevMnth=currMnth;
+   prevMnth--;
+   prevYr = currYr;
+ }
+
+ str = (prevMnth+1)+"/1/"+prevYr;
+ dt = new Date(str);
+ dayOfWeek = dt.getDay();
+
+ /***********************************************
+  * Remove the comment if do not want the user to 
+  * go to any previous month than this current month.
+  ***********************************************/
+
+ /*
+
+ runningMonth = document.forms[0].currMonth.value;
+ rMonth=runningMonth;
+ rMonth++;
+ runningYear = document.forms[0].currYear.value;
+ rYear=runningYear;
+
+ str = (rMonth)+"/1/"+rYear;
+ dt1 = new Date(str);
+ 
+ if (dt.valueOf() < dt1.valueOf()) {
+   alert('Cannot Go Before Current Month');
+   return;
+ }
+ 
+ */
+
+ /**************************************************
+ * End of comment
+ **************************************************/
+
+ mnthName = getMonthName(prevMnth);
+ document.forms[0].month.value=prevMnth;
+ document.forms[0].year.value=prevYr;
+ document.forms[0].monthYear.value= mnthName+" "+prevYr;
+
+ noOfDays = getNoOfDaysInMnth(prevMnth+1,prevYr);
+ fillDates(dayOfWeek+1,noOfDays);
+ 
+}//prevMonth()
+
+</script>
+</head>
+
+
+<body onload="thisMonth()">
+<table border=1 bgcolor="#BAA0A0" align=center>
+<tr>
+<td>
+<form method="post">
+    <!-- Hidden fields --->
+
+    <input type=hidden name=month value="">
+    <input type=hidden name=year value="">
+    <input type=hidden name=currMonth value="">
+    <input type=hidden name=currYear value="">
+
+ 
+    <!-- End of Hidden fields --->
+
+    <p>
+     <input type="button" name="prev" onclick="prevMonth()" 
+     value="<<">
+     <input type="text" size="15" name="monthYear" 
+     value="">
+     <input type="button" name="next" onclick="nextMonth()" value=">>">
+   </p>
+    
+    <table bgcolor="#D4D4D4" align=center border="1" cellpadding="0" cellspacing="0" 
+    width="150">
+        <tr bgcolor="#10A0A0">
+            <td width="14%"><strong>SUN</strong></td>
+            <td width="14%"><strong>MON</strong></td>
+            <td width="14%"><strong>TUE</strong></td>
+            <td width="14%"><strong>WED</strong></td>
+            <td width="14%"><strong>THU</strong></td>
+            <td width="15%"><strong>FRI</strong></td>
+            <td width="15%"><strong>SAT</strong></td>
+        </tr>
+        <tr>
+            <td align="center" width="14%"><input type="button"
+            onclick="setDate(this.value);"
+	    name="s1" value=" 1 "></td>
+            <td align="center" width="14%"><input type="button"
+            onclick="setDate(this.value);"
+            name="s2" value=" 2 "></td>
+            <td align="center" width="14%"><input type="button"
+            onclick="setDate(this.value);"
+            name="s3" value=" 3 "></td>
+            <td align="center" width="14%"><input type="button"
+            onclick="setDate(this.value);"
+            name="s4" value=" 4 "></td>
+            <td align="center" width="14%"><input type="button"
+            onclick="setDate(this.value);"
+            name="s5" value=" 5 "></td>
+            <td align="center" width="15%"><input type="button"
+            onclick="setDate(this.value);"
+            name="s6" value=" 6 "></td>
+            <td align="center" width="15%"><input type="button"
+            onclick="setDate(this.value);"
+            name="s7" value=" 7 "></td>
+        </tr>
+        <tr>
+            <td align="center" width="14%"><input type="button"
+            onclick="setDate(this.value);"
+            name="s8" value=" 8 "></td>
+            <td align="center" width="14%"><input type="button"
+            onclick="setDate(this.value);"
+            name="s9" value=" 9 "></td>
+            <td align="center" width="14%"><input type="button"
+            onclick="setDate(this.value);"
+            name="s10" value="10"></td>
+            <td align="center" width="14%"><input type="button"
+            onclick="setDate(this.value);"
+            name="s11" value="11"></td>
+            <td align="center" width="14%"><input type="button"
+            onclick="setDate(this.value);"
+            name="s12" value="12"></td>
+            <td align="center" width="15%"><input type="button"
+            onclick="setDate(this.value);"
+            name="s13" value="13"></td>
+            <td align="center" width="15%"><input type="button"
+            onclick="setDate(this.value);"
+            name="s14" value="14"></td>
+        </tr>
+        <tr>
+            <td align="center" width="14%"><input type="button"
+            onclick="setDate(this.value);"
+            name="s15" value="15"></td>
+            <td align="center" width="14%"><input type="button"
+            onclick="setDate(this.value);"
+            name="s16" value="16"></td>
+            <td align="center" width="14%"><input type="button"
+            onclick="setDate(this.value);"
+            name="s17" value="17"></td>
+            <td align="center" width="14%"><input type="button"
+            onclick="setDate(this.value);"
+            name="s18" value="18"></td>
+            <td align="center" width="14%"><input type="button"
+            onclick="setDate(this.value);"
+            name="s19" value="19"></td>
+            <td align="center" width="15%"><input type="button"
+            onclick="setDate(this.value);"
+            name="s20" value="20"></td>
+            <td align="center" width="15%"><input type="button"
+            onclick="setDate(this.value);"
+            name="s21" value="21"></td>
+        </tr>
+        <tr>
+            <td align="center" width="14%"><input type="button"
+            onclick="setDate(this.value);"
+            name="s22" value="22"></td>
+            <td align="center" width="14%"><input type="button"
+            onclick="setDate(this.value);"
+            name="s23" value="23"></td>
+            <td align="center" width="14%"><input type="button"
+            onclick="setDate(this.value);"
+            name="s24" value="24"></td>
+            <td align="center" width="14%"><input type="button"
+            onclick="setDate(this.value);"
+            name="s25" value="25"></td>
+            <td align="center" width="14%"><input type="button"
+            onclick="setDate(this.value);"
+            name="s26" value="26"></td>
+            <td align="center" width="15%"><input type="button"
+            onclick="setDate(this.value);"
+            name="s27" value="27"></td>
+            <td align="center" width="15%"><input type="button"
+            onclick="setDate(this.value);"
+            name="s28" value="28"></td>
+        </tr>
+        <tr>
+            <td align="center"><input type="button" name="s29"
+            onclick="setDate(this.value);"
+            value="29"></td>
+            <td align="center"><input type="button" name="s30"
+            onclick="setDate(this.value);"
+            value="30"></td>
+            <td align="center"><input type="button" name="s31"
+            onclick="setDate(this.value);"
+            value="   "></td>
+            <td align="center"><input type="button" name="s32"
+            onclick="setDate(this.value);"
+            value="   "></td>
+            <td align="center"><input type="button" name="s33"
+            onclick="setDate(this.value);"
+            value="   "></td>
+            <td align="center"><input type="button" name="s34"
+            onclick="setDate(this.value);"
+            value="   "></td>
+            <td align="center"><input type="button" name="s35"
+            onclick="setDate(this.value);"
+            value="   "></td>
+        </tr>
+        <tr>
+            <td align="center"><input type="button" name="s36"
+            onclick="setDate(this.value);"
+            value="   "></td>
+            <td align="center"><input type="button" name="s37"
+            onclick="setDate(this.value);"
+            value="   "></td>
+            <td align="center"><input type="button" name="s38"
+            onclick="setDate(this.value);"
+            value="   "></td>
+            <td align="center"><input type="button" name="s39"
+            onclick="setDate(this.value);"
+            value="   "></td>
+            <td align="center"><input type="button" name="s40"
+            onclick="setDate(this.value);"
+            value="   "></td>
+            <td align="center"><input type="button" name="s41"
+            onclick="setDate(this.value);"
+            value="   "></td>
+            <td align="center"><input type="button" name="s42"
+            onclick="setDate(this.value);"
+            value="   "></td>
+        </tr>
+    </table>
+</form>
+ <form method="post">
+  <table border=0 cellspacing=1 cellpadding=1>
+  <tr>
+  <td>
+  <b>Selected:</b>
+  </td>
+  <td align=center>
+  <input type=text size="12" name=dateField>
+  </td>
+  <tr>
+  </table>
+ </form>
+</td>
+</tr>
+</table></div>
+</body>
+</html>
